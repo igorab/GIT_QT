@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QModbusTcpClient>
+#include <QUrl>
 
 //обеспечивает возможности мастера modbus по последовательным интерфейсам
 #include <QModbusRtuSerialMaster>
@@ -27,11 +29,22 @@ public:
 
 private slots:
 
-    void onStateChanged(int state);
+    void readReady();
+    void on_pushButton_connect_clicked();
+    void on_pushButton_read_clicked();
+    void on_pushButton_write_clicked();
 
 public slots:
 
+    void onStateChanged(int state);
+
     void write_registr(int num_device, int reg, quint16 data);
+
+    void read_registr(int num_device, int reg, quint16 size);
+
+    bool new_connect_tcp(const QString &address, int port = 502);
+
+    void disconnect();
 
 
 
