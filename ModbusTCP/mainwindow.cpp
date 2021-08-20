@@ -62,7 +62,22 @@ void MainWindow::onStateChanged(int state)
 
 void MainWindow::write_registr(int num_device, int reg, quint16 data)
 {
+    QModbusDataUnit writeUnit(QModbusDataUnit::HoldingRegisters, reg, 1);
 
+    writeUnit.setValue(0, data);
+
+    QModbusReply *lastResponse;
+
+    lastResponse = modbusDevice->sendWriteRequest(writeUnit, num_device);
+
+    if (!lastResponse->isFinished())
+    {
+
+    }
+    else
+    {
+        lastResponse->deleteLater();
+    }
 
 }
 
@@ -107,8 +122,15 @@ bool MainWindow::new_connect_tcp(const QString &address, int port)
     }
 }
 
+void MainWindow::response()
+{
+    QModbusReply *lastRequest = qobject_cast<QModbusReply *>(sender());
+}
+
 void MainWindow::on_pushButton_read_clicked()
 {
     read_registr(ui->spinBox_addr->value(), ui->spinBox_register->value(), 1);
 }
+
+
 

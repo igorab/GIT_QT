@@ -5,6 +5,9 @@
 #include <QModbusTcpClient>
 #include <QUrl>
 
+//  Чтение и запись Modbus +
+//  Modbus slave
+
 //обеспечивает возможности мастера modbus по последовательным интерфейсам
 #include <QModbusRtuSerialMaster>
 //обеспечивает работу с последовательными интерфейсами
@@ -43,6 +46,8 @@ public slots:
     void read_registr(int num_device, int reg, quint16 size);
 
     bool new_connect_tcp(const QString &address, int port = 502);
+
+    void response();
 
 //    void disconnect();
 
