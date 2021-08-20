@@ -32,7 +32,7 @@ private slots:
     void readReady();
     void on_pushButton_connect_clicked();
     void on_pushButton_read_clicked();
-    void on_pushButton_write_clicked();
+//    void on_pushButton_write_clicked();
 
 public slots:
 
@@ -44,7 +44,7 @@ public slots:
 
     bool new_connect_tcp(const QString &address, int port = 502);
 
-    void disconnect();
+//    void disconnect();
 
 
 
@@ -52,13 +52,5 @@ private:
     Ui::MainWindow *ui;
 };
 
-inline void MainWindow::onStateChanged(int state)
-{
 
-}
-
-inline void MainWindow::write_registr(int num_device, int reg, quint16 data)
-{
-
-}
 #endif // MAINWINDOW_H
