@@ -6,7 +6,7 @@
 #include <QUrl>
 
 //  Чтение и запись Modbus +
-//  Modbus slave
+//  Modbus slave +-
 
 //обеспечивает возможности мастера modbus по последовательным интерфейсам
 #include <QModbusRtuSerialMaster>

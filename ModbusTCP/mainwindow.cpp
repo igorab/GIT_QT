@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+//
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -83,7 +85,10 @@ void MainWindow::write_registr(int num_device, int reg, quint16 data)
 
 void MainWindow::read_registr(int num_device, int reg, quint16 size)
 {
-    if (!modbusDevice) return;
+    if (!modbusDevice)
+    {
+        return;
+    }
 
     QModbusDataUnit readUnit = QModbusDataUnit(QModbusDataUnit::HoldingRegisters, reg, size);
 
