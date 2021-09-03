@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-//
+// ну я здесь что-то напрограммировал ((((
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
