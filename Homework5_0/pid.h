@@ -7,34 +7,36 @@ public:
     PID();
     float output = 0;
 
-    float operate(float sensor){
+    float operate(float sensor)
+    {
 
-        delta = sp - sensor;
+        delta = sp - sensor; // уставка минус показатель датчика
 
-        prop = delta * kp;
+        prop = delta * kp; // пропорциональная составляющая
 
         if (output >= 0 && output <= 100) integral += delta *(1/ki);
 
         diff = (delta - delta1) * kd;
         delta1 = delta;
 
-        output = prop + integral + diff;
+        output = prop + integral + diff; // сумма всех регуляторов
 
-        if (output > 100) output = 100;
+        if (output > 100) output = 100; // мин-макс output
         if (output < 0 ) output = 0;
 
         return output;
     }
 
 private:
+    // коэффициенты PID
     float kp = 5;
     float ki = 100;
     float kd = 20;
 
-    float delta;
-    float delta1;
-    float sp = 55;
-    float integral = 0;
+    float delta; // дельта
+    float delta1; // старая дельта
+    float sp = 55; // уставка регулятора
+    float integral = 0; // накопленная интегральная составляющая
     float diff = 0;
     float prop = 0;
 

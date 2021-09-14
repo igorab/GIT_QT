@@ -8,6 +8,8 @@
 #include "sensor.h"
 
 // homework 5-0
+
+#include "stat.h"
 /*
  * Реализовать: симулятор датчика, регулятора и ШИМ
  *
@@ -27,7 +29,6 @@
 
 using namespace std;
 
-
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -41,18 +42,26 @@ int main(int argc, char *argv[])
     file.open(QIODevice::ReadWrite);
     file.write("Temperature;Regulator\n");
 
-    for (int i=0; i<50; i++){
-        regulator.operate(temperature.output);
-        pwm.operate(regulator.output);
-        temperature.simulate(pwm.state);
+    for (int i=0; i<500; i++)
+    {
+        regulator.operate(temperature.output); // Запустили регулятор - на вход регулятора подали выход симулятора температуры
+        pwm.operate(regulator.output); // запуск ШИМ
+        temperature.simulate(pwm.state); // запуск симуляции температуры
 
         QString data = QString::number(temperature.output) + ";" + QString::number(regulator.output) + "\n";
         file.write(data.toStdString().c_str());
 
-
         cout << "t= " << temperature.output << " r= " << regulator.output << " s= " << pwm.state << endl;
-
     }
 
-    return a.exec();
+    file.close();
+
+    // анализируем полученный файл
+    Stat st;
+
+    st.calc();
+
+    cout << "количество разворотов тренда: " << st.trendReversal << endl;
+
+    return 0;
 }

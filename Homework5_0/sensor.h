@@ -1,15 +1,17 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
+
 class Sensor
 {
-
+    // матемаическая модель - симуляция графика температуры
 
 public:
     Sensor();
 
     float output = 0;
 
+    // heat - признак включен или нет нагрев
     float simulate(int heat)
     {
         if (heat)
@@ -33,10 +35,10 @@ public:
 
 
 private:
-    float power = 0;
-    float inertia = 200;
+    float power = 0;  // мощность от 0 до 100
+    float inertia = 200; // инерция
     float speed = 0.1;
-    float heating;
+    float heating; // какое происходит изменение температуры за цикл
 
 };
 

@@ -11,7 +11,8 @@ SOURCES += \
         main.cpp \
         pid.cpp \
         pwm.cpp \
-        sensor.cpp
+        sensor.cpp \
+        stat.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -21,4 +22,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     pid.h \
     pwm.h \
-    sensor.h
+    sensor.h \
+    stat.h
