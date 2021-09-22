@@ -27,15 +27,16 @@ public:
         return output;
     }
 
+    float sp = 51; // уставка регулятора
+
 private:
     // коэффициенты PID
     float kp = 5;
     float ki = 100;
     float kd = 20;
 
-    float delta; // дельта
-    float delta1; // старая дельта
-    float sp = 55; // уставка регулятора
+    float delta = 0; // дельта
+    float delta1 = 0; // старая дельта
     float integral = 0; // накопленная интегральная составляющая
     float diff = 0;
     float prop = 0;

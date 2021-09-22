@@ -25,6 +25,8 @@ public:
         counter ++;
 
         if (counter > cycle) counter = 0;
+
+        return 1;
     }
 
 private:

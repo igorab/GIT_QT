@@ -39,10 +39,11 @@ int main(int argc, char *argv[])
 
     QFile file("data.csv");
 
-    file.open(QIODevice::ReadWrite);
+    file.open(QIODevice::ReadWrite | QIODevice::Truncate);
+
     file.write("Temperature;Regulator\n");
 
-    for (int i=0; i<500; i++)
+    for (int i=0; i<2000; i++)
     {
         regulator.operate(temperature.output); // Запустили регулятор - на вход регулятора подали выход симулятора температуры
         pwm.operate(regulator.output); // запуск ШИМ
@@ -56,12 +57,15 @@ int main(int argc, char *argv[])
 
     file.close();
 
+    cout << "analyze the resulting file" << endl;
+
     // анализируем полученный файл
     Stat st;
+    st.sp = regulator.sp;
 
     st.calc();
 
-    cout << "количество разворотов тренда: " << st.trendReversal << endl;
+    cout << "number of trend reversals: " << st.trendReversal << endl;
 
     return 0;
 }
