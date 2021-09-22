@@ -18,6 +18,13 @@ Stat::Stat()
  *   в какой наиболее ранний момент разница между верхней точкой перелома и нижней стала меньше трёх градусов
  *
 */
+
+float prevTemp = 0;
+int trendChangeQty = 0;
+
+int trendUpDown = 0;
+int prevTrend = 0;
+
 void Stat::process_line(QString line, float &maxDeltaTemp, float &minDeltaTemp)
 {   
     QStringList list =  line.split(";", Qt::SkipEmptyParts);
@@ -25,7 +32,26 @@ void Stat::process_line(QString line, float &maxDeltaTemp, float &minDeltaTemp)
     if (cnt > 0)
     {
         float xTemp = 0, yReg = 0;
+
         xTemp = list[0].toFloat(); // temperature
+
+        if (prevTemp >= xTemp)
+        {
+            trendUpDown = 1;
+        }
+        else
+        {
+            trendUpDown = 2;
+        }
+
+        if (prevTrend != trendUpDown)
+        {
+            trendChangeQty ++;
+        }
+
+        prevTrend = trendUpDown;
+        prevTemp = xTemp;
+
         yReg = list[1].toFloat(); // regulator
 
         if (overHeat == false)
@@ -57,6 +83,8 @@ void Stat::process_line(QString line, float &maxDeltaTemp, float &minDeltaTemp)
         //std::cout << xTemp << " ; " << yReg << std::endl;
 
         // Точки разворота тренда :
+
+
 
         // Время выхода на уставку :
 
