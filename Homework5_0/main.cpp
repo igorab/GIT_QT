@@ -65,7 +65,13 @@ int main(int argc, char *argv[])
 
     st.calc();
 
-    cout << "number of trend reversals: " << st.trendReversal << endl;
+
+    cout << "Max delta temp: " << st.MaxDeltaTemperature << endl;
+    cout << "Min delta temp: " << st.MinDeltaTemperature << endl;
+
+    cout << "Number of trend reversals: " << st.trendReversalQty << endl;
+
+    std::cout << "Setpoint time: " << st.cntSetPoint << std::endl;
 
     return 0;
 }

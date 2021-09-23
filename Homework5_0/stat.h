@@ -17,7 +17,13 @@ public:
 
     float sp = 0; // уставка
 
-    int trendReversal = 0;
+    // максимальный выбег перерегулирования за уставку
+    float MaxDeltaTemperature = 0,
+          MinDeltaTemperature = 0;
+
+    int trendReversalQty = 0; // количество разворотов тренда
+
+    int cntSetPoint = 0; // время выхода на уставку
 
     void calc();
     void process_line(QString line, float &, float &);
