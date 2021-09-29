@@ -13,9 +13,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setParams(QString txt)
+
+void MainWindow::getData(QString data, double dblvalue)
 {
-    QString text = txt;
-    text += " my text";
+    ui->textBrowser->setText(data);
+
+    ui->doubleSpinBox->setValue(dblvalue);
 }
 

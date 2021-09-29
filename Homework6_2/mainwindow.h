@@ -8,16 +8,25 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+//.... поместим его сюда
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
-    void setParams(QString txt);
+
+
+public slots:
+
+    void getData(QString data, double dblvalue);
 
 private:
+
     Ui::MainWindow *ui;
 };
+
 #endif // MAINWINDOW_H

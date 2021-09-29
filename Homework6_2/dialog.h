@@ -5,8 +5,11 @@
 #include <QDialog>
 #include "mainwindow.h"
 
+
+// возьмем какое-нибудь число отсюда .....
+
 namespace Ui {
-class Dialog;
+    class Dialog;
 }
 
 class Dialog : public QDialog
@@ -14,20 +17,35 @@ class Dialog : public QDialog
     Q_OBJECT
 
 public:
+
     explicit Dialog(QWidget *parent = nullptr);
+
     ~Dialog();
 
-    MainWindow mw;
+protected:
+
+    void closeEvent(QCloseEvent *);
+
+
+private:
+
+    Ui::Dialog *ui;
+
+    MainWindow *mainwindow;
+
+    QString data;
+
+signals:
+    void sendData(QString, double);
 
 private slots:
-    void on_buttonBox_clicked(QAbstractButton *button);
-
-    void on_buttonBox_rejected();
 
     void on_buttonBox_accepted();
 
-private:
-    Ui::Dialog *ui;
+    void on_buttonBox_rejected();
+
+
+
 };
 
 #endif // DIALOG_H

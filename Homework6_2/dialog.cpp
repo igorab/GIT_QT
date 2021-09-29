@@ -1,11 +1,13 @@
 #include "dialog.h"
 #include "ui_dialog.h"
 
-Dialog::Dialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::Dialog)
+Dialog::Dialog(QWidget *parent) : QDialog(parent), ui(new Ui::Dialog)
 {
     ui->setupUi(this);
+
+    mainwindow = new MainWindow();
+
+    connect(this, SIGNAL(sendData(QString,double)), mainwindow, SLOT(getData(QString,double)));
 }
 
 Dialog::~Dialog()
@@ -13,34 +15,25 @@ Dialog::~Dialog()
     delete ui;
 }
 
-void Dialog::on_buttonBox_clicked(QAbstractButton *button)
-{    
-    button->animateClick(3000);
-}
+void Dialog::closeEvent(QCloseEvent *qe)
+{
 
+    data = ui->plainTextEdit->toPlainText();
+
+    double dblvalue  = ui->doubleSpinBox->value();
+
+    emit sendData(data, dblvalue);
+}
 
 void Dialog::on_buttonBox_rejected()
 {
-    int i = 0;
-    i --;
-    -- i;
-
-    char j = 2;
-    j = j >> 1;
-    j = j >> 1;
-
-    char a = 1;
-    a = j;
-    a ++;
+    this->close();
 }
-
 
 void Dialog::on_buttonBox_accepted()
 {
-    // open form
-    mw.show();
-    mw.setParams("aaaaaa");
+    mainwindow->show();
 
-    this->hide();
+    this->close();
 }
 
