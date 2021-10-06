@@ -2,15 +2,13 @@
 #include "ui_circles.h"
 #include <QTimer>
 
-Circles::Circles(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::Circles)
+Circles::Circles(QWidget *parent) : QMainWindow(parent) , ui(new Ui::Circles)
 {
     ui->setupUi(this);
 
     timer = new QTimer;
 
-    connect(timer, SIGNAL(timeout()), this,  SLOT(refresh));
+    connect(timer, SIGNAL(timeout()), this,  SLOT(refresh()));
 
     timer->start(100);
 }
@@ -27,7 +25,9 @@ void Circles::paintEvent(QPaintEvent *event)
     QBrush brush;
 
     QVector<qreal> dashes;
+
     qreal space = 4;
+
     dashes << 1 << space << 3 << space << 9 << space << 27 << space << 9 << space;
     pen.setDashPattern(dashes);
 
@@ -41,10 +41,20 @@ void Circles::paintEvent(QPaintEvent *event)
     painter.setBrush(brush);
     painter.setViewport(ui->screen->geometry().x(), ui->screen->geometry().y(), ui->screen->geometry().width(), ui->screen->geometry().height());
 
-    painter.drawLine(50,50,500,500);
-    painter.drawRect(300,20, 100, 50);
+    // draw Star
+    QPoint *CenterStar = new QPoint(300, 300);
+    painter.drawEllipse(*CenterStar, 100, 100);
 
-    painter.drawRect(x,y, 200, 200);
+    // draw Planet
+    QColor PlanetColor(255,255,255);
+    QBrush BrushPlanet(PlanetColor.yellowF(), Qt::SolidPattern);
+    QPen PenPlanet(BrushPlanet, 2);
+
+    QPoint CenterPlanet(400+x, 400+y);
+
+    painter.setPen(PenPlanet);
+    painter.drawEllipse(CenterPlanet, 50, 50);
+
 }
 
 void Circles::refresh()
