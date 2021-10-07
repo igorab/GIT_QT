@@ -22,13 +22,11 @@ private:
 
     QTimer *timer;
 
-    int x = 0, y = 0, dirx = 0, diry = 0;
-
+    qreal alpha = 0;
 
 private slots:
     void paintEvent(QPaintEvent *event);
     void refresh();
-
 
 };
 #endif // CIRCLES_H

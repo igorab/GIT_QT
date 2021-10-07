@@ -21,55 +21,60 @@ Circles::~Circles()
 void Circles::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    QPen pen;
-    QBrush brush;
+
+    QPoint *CenterStar = new QPoint(300, 300);
+
+    painter.translate(*CenterStar);
+
+    QPen   PenStar;
 
     QVector<qreal> dashes;
-
     qreal space = 4;
-
     dashes << 1 << space << 3 << space << 9 << space << 27 << space << 9 << space;
-    pen.setDashPattern(dashes);
+    PenStar.setDashPattern(dashes);
+    PenStar.setWidth(5);
+    PenStar.setColor(Qt::red);
+    painter.setPen(PenStar);
 
-    pen.setWidth(5);
-    pen.setColor(Qt::red);
-    painter.setPen(pen);
+    QBrush BrushStar;
+    BrushStar.setColor(Qt::blue);
+    BrushStar.setStyle(Qt::Dense5Pattern);
 
-    brush.setColor(Qt::blue);
-    brush.setStyle(Qt::Dense5Pattern);
-
-    painter.setBrush(brush);
+    painter.setBrush(BrushStar);
     painter.setViewport(ui->screen->geometry().x(), ui->screen->geometry().y(), ui->screen->geometry().width(), ui->screen->geometry().height());
 
+    int starRadius = 100;
+
     // draw Star
-    QPoint *CenterStar = new QPoint(300, 300);
-    painter.drawEllipse(*CenterStar, 100, 100);
+    painter.drawEllipse(QPoint(0,0), starRadius, starRadius);
+
+    painter.save();
 
     // draw Planet
-    QColor PlanetColor(255,255,255);
-    QBrush BrushPlanet(PlanetColor.yellowF(), Qt::SolidPattern);
-    QPen PenPlanet(BrushPlanet, 2);
+    QColor PlanetColor(0, 255, 255);
+    QBrush BrushPlanet(PlanetColor, Qt::SolidPattern);
+    QPen PenPlanet( BrushPlanet, 5);
 
-    QPoint CenterPlanet(400+x, 400+y);
+    painter.rotate(alpha);
+    painter.translate(2*starRadius, 0);
 
+    QPoint CenterPlanet(0, 0);
+
+    BrushPlanet.setColor(Qt::yellow);
+    painter.setBrush(BrushPlanet);
     painter.setPen(PenPlanet);
-    painter.drawEllipse(CenterPlanet, 50, 50);
+    painter.drawEllipse(CenterPlanet, 50, 30);
+
+    painter.restore();
 
 }
 
 void Circles::refresh()
-{
-    if (x >= ui->screen->geometry().width()) dirx = -1;
-    else dirx    = 1;
+{       
+    alpha --;
 
-    if (y>=ui->screen->geometry().height()) diry = -1;
-    else diry = 1;
-
-    x = x + dirx;
-    y = y + diry;
-    x = x+1;
+    if (alpha == -360) alpha = 0;
 
     update();
-
 }
 
