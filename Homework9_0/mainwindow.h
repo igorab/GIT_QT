@@ -33,6 +33,8 @@ public:
 
     double planet_rotation = 0;
 
+    double atmosphere_rotation = 0;
+
     double speed_atmosphere_rotation;
 
     QImage star_background;
