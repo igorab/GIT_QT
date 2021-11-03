@@ -217,127 +217,127 @@ void MainWindow::cycle()
 }
 
 
+// отрисовка экрана
+void MainWindow::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    //установим границы отображения для рисовальщика
+    painter.setViewport(ui->screen->geometry().x(), ui->screen->geometry().y(), ui->screen->geometry().width(), ui->screen->geometry().height());
+
+    //масштабируем звездный фон
+    star_background = star_background.scaled(ui->screen->geometry().width(), ui->screen->geometry().height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+
+    //и выведем его на экран
+    painter.drawImage(0, 0, star_background);
+
+    painter.save();
+
+    //сместим начало координат сцены к центру виджета screen
+    painter.translate(ui->screen->geometry().width()/2 + x_axis, ui->screen->geometry().height()/2 + y_axis);
+
+    //применим масштабирование для сцены
+    painter.scale(scale_scene,scale_scene);
+
+    // выводим изображение звезды
+    painter.drawImage(-star_size/2, -star_size/2, star);
+
+    //определим перо для отображения
+    QPen pen;
+
+    pen.setColor(Qt::darkGreen);
+    pen.setWidth(1);
+    painter.setPen(pen);
+
+    //выведемокружностьорбиты
+    painter.drawEllipse(-orbital_size,-orbital_size,orbital_size*2,orbital_size*2);
+
+    //повернемсистемукоординатсогласноуглуорбитыпланеты
+    painter.rotate(orbital_rotation);
+
+    //сместимначалокоординатсценынаорбиту
+    painter.translate(orbital_size,0);
+
+    //повернем систему координатнауголпротивоположныйорбите,чтобыизображениепланетыневращалось
+    painter.rotate(-orbital_rotation);
+
+    //выводим изображение планеты
+    painter.drawImage(-planet_size/2, -planet_size/2, planet);
+
+    //выводатмосферы
+    painter.drawImage(-(planet_size+atmosphere_up_size)/2, -(planet_size+atmosphere_up_size)/2, planet_atmosphere);
+
+    //вернемсистемукоординатнауголорбиты,чтобытеньпланетывращалась
+    painter.rotate(orbital_rotation);
+
+    //выводтенипланеты
+    painter.drawImage(-planet_size/2,-planet_size/2,planet_shadow);
+
+    //повернем системукоординатнауголпротивоположныйорбите,чтобыизображениеночныхогнейневращалось
+    painter.rotate(-orbital_rotation);
+
+    //вывод ночных огней
+    painter.drawImage(-planet_size/2,-planet_size/2,planet_lights);
+
+    //выведемокружностьорбитыспутника
+    painter.drawEllipse(-orbital_moon_size, -orbital_moon_size, orbital_moon_size*2, orbital_moon_size*2);
+
+    //повернемсистемукоординатсогласноуглуорбитыспутника
+    painter.rotate(orbital_moon_rotation);
+
+    //сместимначалокоординатсценынаорбитуспутника
+    painter.translate(orbital_moon_size, 0);
+
+    //повернемсистемукоординатобратноуглуорбитыспутника
+    painter.rotate(-orbital_moon_rotation);
+
+    //выводимизображениеспутника
+    painter.drawImage(-moon_size/2,-moon_size/2,moon);
+
+    //выведем тень спутника с учетом орбиты планеты
+    painter.rotate(orbital_rotation);
+
+    //вывод тени спутника
+    painter.drawImage(-moon_size/2,-moon_size/2,moon_shadow);
+
+    //восстановим состояние сцены
+    painter.restore();
+
+    //вывод таблички с название мобъекта
+    if (show_info)
+    {
+        pen.setColor(Qt::darkGreen);
+        pen.setWidth(2);
+        QBrush brush;
+        brush.setColor(QColor(0,255,0,120));
+        brush.setStyle(Qt::SolidPattern);
+        painter.setPen(pen);
+        painter.setBrush(brush);
+        painter.drawRect(coord_info_x,coord_info_y,100,20);
+        pen.setColor(QColor(0,0,0,255));
+        pen.setWidth(1);
+        painter.setPen(pen);
+        painter.drawText(coord_info_x,coord_info_y,100,20,Qt::AlignCenter,text_info);
+    };
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
-{
-
-#ifdef __linux__
-    //код для Linux
-#elif __sun
-    // дляSolaris
-#elif _WIN32
-    //код для windows
-#else
-#endif
-
-    switch (event->key())
-    {
-        case Qt::Key_A:
-            ui->lineEdit->setText("Key A Pressed");
-            break;
-
-        case Qt::Key_B:
-            ui->lineEdit->setText("Key B Pressed");
-            break;
-
-        case Qt::Key_C:
-            ui->lineEdit->setText("Key C Pressed");
-            break;
-
-        case Qt::Key_Space:
-            ui->lineEdit->clear();
-            break;
-    }
-
-    //модификаторCtrl
-    if (event->modifiers()==Qt::CTRL)
-    {
-        //определяемклавишу
-        switch(event->key())
-        {
-            case Qt::Key_A:
-                ui->lineEdit->setText("KeyA+Ctrl pressed!");
-                break;
-            case Qt::Key_B:
-                ui->lineEdit->setText("KeyB+Ctrl pressed!");
-                break;
-            case Qt::Key_C:
-                ui->lineEdit->setText("KeyC+Ctrl pressed!");
-                break;
-        }
-    }
-
-    //обамодификатора Ctrl+Alt,обратитевниманиенаспособнаписанияусловия!
-    if ((event->modifiers() & Qt::CTRL) && (event->modifiers()  &Qt::ALT))
-    {
-        //определяемклавишу
-        switch (event->key()) {
-            case Qt::Key_A:
-                ui->lineEdit->setText("Key A + Ctrl+Alt pressed!");
-                break;
-            case Qt::Key_B:
-                ui->lineEdit->setText("KeyB+Ctrl+Alt pressed!");
-                break;
-            case Qt::Key_C:
-                ui->lineEdit->setText("KeyC+Ctrl+Alt pressed!");
-            break;
-        }
-    }
-
+{        
     if (event->key() == Qt::Key_Space)
     {
-        ui->lineEdit->clear();
+        //ui->lineEdit->clear();
     }
-
-
-
 }
 
 // Обработчик мыши
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     //отобразим координату X
-    ui->lineEdit_x->setText(QString::number(event->x()));
-
-    //отобразим координату Y
-    ui->lineEdit_y->setText(QString::number(event->y()));
-    //определим нажатие кнопки
-    QString temp_state_str;
-
-    if (event->button()==Qt::LeftButton)
-        temp_state_str+="left mouse button is pressed!;";
-
-    if (event->button()==Qt::RightButton)
-        temp_state_str+="right mouse button is pressed!;";
-
-    if (event->button()==Qt::MiddleButton)
-        temp_state_str+="middle mouse button is pressed!;";
-
-    //выведемввидетекста,какиекнопкинажатынамыши
-
-    ui->lineEdit_buttons->setText(temp_state_str);
-
-    //проверим состояние колесика
-    if (event->type()==QEvent::Wheel)
-    {
-        QWheelEvent *wheel = (QWheelEvent*)event;
-
-        int scroll = 50;
-
-        if (wheel->delta() > 0 && scroll < 99)
-            scroll +=1;
-        else if (scroll > 0)
-            scroll -=1;
-
-        //выведем значения на скроллбар
-        ui->horizontalSlider_scroll->setValue(scroll);
-        ui->label_scroll->setNum(scroll);
-    }
-
+    //ui->lineEdit_x->setText(QString::number(event->x()));
 }
 
 bool MainWindow::eventFilter(QObject *target, QEvent *event)
@@ -346,42 +346,11 @@ bool MainWindow::eventFilter(QObject *target, QEvent *event)
 
     if (event->type() == QEvent::MouseButtonPress)
     {
-        QString temp_state_str;
-
-        QMouseEvent *mouseEvent =  (QMouseEvent*) event;
-
-        //левая кнопка мыши
-        if (mouseEvent->button()==Qt::LeftButton)
-            temp_state_str += "leftmousebuttonispressed!;";
-
-        if (mouseEvent->button() == Qt::RightButton)
-            temp_state_str += "rightmousebuttonispressed!;";
-
-        if (mouseEvent->button()==Qt::MiddleButton)
-            temp_state_str += "middlemousebuttonispressed!;";
-
-        // выведем в виде текста состояние кнопок мыши
-        ui->lineEdit_buttons->setText(temp_state_str);
-
         return true;
 
         //отпусканиекнопокмыши
         if (event->type()==QEvent::MouseButtonRelease)
         {
-            QString temp_state_str;
-            QMouseEvent *mouseEvent=(QMouseEvent*)event;
-            //левая кнопка мыши
-            if (mouseEvent->button()==Qt::LeftButton)
-                temp_state_str += "leftmousebuttonisrealised!;";
-
-            if (mouseEvent->button()==Qt::RightButton)
-                temp_state_str += "rightmousebuttonisrealised!;";
-
-            if (mouseEvent->button()==Qt::MiddleButton)
-                temp_state_str += "middlemousebuttonisrealised!;";
-
-            //выведем в виде текста состояние кнопок мыши
-            ui->lineEdit_buttons->setText(temp_state_str);
 
             return true;
         };
@@ -389,21 +358,6 @@ bool MainWindow::eventFilter(QObject *target, QEvent *event)
         //проверим состояние колесика
         if (event->type()==QEvent::Wheel)
         {
-            QWheelEvent *wheel = (QWheelEvent*)event;
-
-            int encoder = wheel->delta();
-
-            if (encoder > 0 && ui->horizontalSlider_scroll->value() < 99)
-            {
-                ui->horizontalSlider_scroll->setValue(ui->horizontalSlider_scroll->value()+1);
-
-                ui->label_scroll->setNum(ui->horizontalSlider_scroll->value());
-            }
-            else
-            {
-                ui->horizontalSlider_scroll->setValue(ui->horizontalSlider_scroll->value()-1);
-                ui->label_scroll->setNum(ui->horizontalSlider_scroll->value());
-            };
 
             return true;
         };
@@ -414,11 +368,6 @@ bool MainWindow::eventFilter(QObject *target, QEvent *event)
         {
             QMouseEvent *mouseEvent = (QMouseEvent*)event;
 
-            //отобразим координату X
-            ui->lineEdit_x->setText(QString::number(mouseEvent->pos().x()));
-
-            //отобразим координату Y
-            ui->lineEdit_y->setText(QString::number(mouseEvent->pos().y()));
             return true;
         };
 
