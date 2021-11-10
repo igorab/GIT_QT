@@ -15,6 +15,13 @@ public:
     int calculate();
     QString indicate();
 
+private:
+
+    double value1;
+    double value2;
+
+    int oper;
+    double result;
 
 };
 
