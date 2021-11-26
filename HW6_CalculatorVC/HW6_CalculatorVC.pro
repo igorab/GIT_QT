@@ -11,16 +11,14 @@ CONFIG += c++11
 SOURCES += \
     calculator.cpp \
     main.cpp \
-    mainwindow.cpp \
-    mathoperator.cpp
+    mainwindow.cpp
 
 HEADERS += \
     calculator.h \
-    mainwindow.h \
-    mathoperator.h
+    mainwindow.h
 
 FORMS += \
-    frmCalculator.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -14,9 +14,9 @@
 
 using namespace std;
 
-int pexpression()
+int pexpression(string _expression)
 {
-    /*
+
     map<char, function<int64_t(const int64_t&, const int64_t&)>> operations;
 
     operations['+'] = [](const int64_t& a, const int64_t& b) constexpr { return a + b; };
@@ -24,7 +24,7 @@ int pexpression()
     operations['*'] = [](const int64_t& a, const int64_t& b) constexpr { return a * b; };
     operations['/'] = [](const int64_t& a, const int64_t& b) constexpr { return a / b; };
 
-    string expression;
+    string expression = _expression;
 
     vector<int64_t> stack_;
 
@@ -32,7 +32,7 @@ int pexpression()
 
     bool flag = true;
 
-    getline(cin, expression);
+    //getline(cin, expression);
 
     for (const auto& i : expression)
     {
@@ -62,8 +62,8 @@ int pexpression()
         }
     }
 
-    cout << stack_.back();
-    */
+    int64_t sout = stack_.back();
+
     return 0;
 }
 
@@ -71,7 +71,7 @@ int pexpression()
 
 Calculator::Calculator()
 {
-    pexpression();
+    pexpression("2 3 *");
 
 }
 

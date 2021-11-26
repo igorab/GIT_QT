@@ -41,6 +41,7 @@ private slots:
 
     void on_But_E_clicked();
 
+
 private:
     Ui::frmCalculator *ui;
 };
