@@ -1,18 +1,100 @@
 #include "calculator.h"
+#include "mathoperator.h"
+
+#include <stdlib.h>
+#include <iostream>
+#include <ctype.h>
+
+#include <iostream>
+using namespace std;
+
+#pragma hdrstop
+
+int isoperator(char ch)
+{
+    return 0;
+}
+
+int iswhitespace(char ch)
+{
+    return 0;
+}
+
+enum op{
+    OperatorExpected,
+    InvalidInput
+};
+
+void error(int n)
+{
+    static char *errormsgs[] = {
+        "Отсутствует оператор",
+        "Отсутствует операнд",
+        "Нет левой скобки",
+        "Нет правой скобки",
+        "Неверный ввод"};
+
+    cerr << errormsgs[n]<< endl;
+    exit(1);
+}
+
+void runcalc()
+{
+    QStack<MathOperator> OperatorStack;
+
+    QStack<float> OperandStack;
+
+    MathOperator opr1, opr2;
+
+    int rank = 0;
+    float number;
+    char ch;
+
+    while (cin.get(ch) && ch != '=')
+    {
+        if (isdigit(ch) || ch == '.')
+        {
+            cin.putback(ch);
+            cin >> number;
+
+            rank ++;
+
+            if (rank > 1)
+                error(OperatorExpected);
+
+
+        }
+        else if (isoperator(ch))
+        {
+
+        }
+        else if (ch == 0)
+        {
+
+        }
+        else if (!iswhitespace(ch))
+        {
+            error(InvalidInput);
+        }
+
+    }
+
+}
+
 
 //Стандарт языка C++17
 //Пример ввода: 8 9 + 1 7 - *
 
 //______Реализация______
-
+/*
 #include <iostream>
 #include <string>
 #include <functional>
 #include <vector>
 #include <map>
 #include <cctype>
-
-using namespace std;
+*/
+//using namespace std;
 
 int pexpression()
 {

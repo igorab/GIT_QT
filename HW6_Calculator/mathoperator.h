@@ -2,6 +2,7 @@
 #define MATHOPERATOR_H
 
 #include <QApplication>
+#include <QStack>
 
 class MathOperator
 {
