@@ -1,7 +1,6 @@
 #ifndef MATHOPERATOR_H
 #define MATHOPERATOR_H
 
-//#include <QApplication>
 #include <QStack>
 
 class MathOperator
