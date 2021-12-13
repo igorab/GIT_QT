@@ -3,6 +3,8 @@
 
 #include "QApplication"
 #include <QStack>
+#include <QQueue>
+#include <QtMath>
 
 class PostfixNotationExpression
 {   
@@ -10,6 +12,10 @@ public:
     PostfixNotationExpression();
 
     QString ConvertToPostfixNotation(QString input);
+
+    qreal result(QString input);
+
+
 
 private:
 
@@ -19,6 +25,8 @@ private:
     QString Separate(QString input);
 
     qint8 GetPriority(QString s);
+
+
 
 
 
