@@ -2,6 +2,7 @@
 #define CALCULATOR_H
 
 #include <QString>
+#include "postfixnotationexpression.h"
 
 class Calculator
 {
