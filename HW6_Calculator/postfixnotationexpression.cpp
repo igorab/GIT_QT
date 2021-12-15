@@ -40,7 +40,7 @@ QString PostfixNotationExpression::Separate(QString input)
             }
         }
 
-        //yield return s;
+        return s;
 
         pos += s.length();
     }
@@ -119,9 +119,17 @@ QString PostfixNotationExpression::ConvertToPostfixNotation(QString input)
         {
             outputSeparated->append(c);
         }
-
     }
 
+    if (stack.count() > 0)
+    {
+        foreach(const QString &c, stack)
+        {
+            outputSeparated->append(c);
+        }
+    }
+
+    return outputSeparated->constFirst(); //TODO
 }
 
 ///
