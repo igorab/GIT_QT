@@ -10,9 +10,11 @@ PostfixNotationExpression::PostfixNotationExpression()
 ///
 /// \brief PostfixNotationExpression::Separate
 /// \param input
-/// \return
+///  input string expression to parse
+/// \param resVector
+/// result vector parsed string
 ///
-QString PostfixNotationExpression::Separate(QString input)
+void PostfixNotationExpression::Separate(QString input, QVector<QString> &resVector)
 {
     int pos = 0;
 
@@ -40,12 +42,10 @@ QString PostfixNotationExpression::Separate(QString input)
             }
         }
 
-        return s;
+        resVector.append(s);
 
         pos += s.length();
     }
-
-    return "";
 }
 
 ///
@@ -73,14 +73,16 @@ qint8 PostfixNotationExpression::GetPriority(QString s)
 /// \param input
 /// \return
 ///
-QString PostfixNotationExpression::ConvertToPostfixNotation(QString input)
+QList<QString>* PostfixNotationExpression::ConvertToPostfixNotation(QString input)
 {
     QList<QString> *outputSeparated = new QList<QString>();
 
-    //QStack<QString> *stack1 = new QStack<QString>();
     QStack<QString> stack;
+    QVector<QString>  qVector;
 
-    foreach (const QString &c, Separate(input))
+    Separate(input, qVector);
+
+    for (const QString &c: qAsConst(qVector))
     {
         if (operators->contains(c))
         {
@@ -123,13 +125,13 @@ QString PostfixNotationExpression::ConvertToPostfixNotation(QString input)
 
     if (stack.count() > 0)
     {
-        foreach(const QString &c, stack)
+        for(const QString &c: stack)
         {
             outputSeparated->append(c);
         }
     }
 
-    return outputSeparated->constFirst(); //TODO
+    return outputSeparated;
 }
 
 ///
@@ -141,7 +143,10 @@ qreal PostfixNotationExpression::result(QString input)
 {
     QStack<QString> *stack = new QStack<QString>();
 
-    QString postfixNotation = ConvertToPostfixNotation(input);
+    QList<QString> *listRPN = ConvertToPostfixNotation(input);
+
+
+    QString postfixNotation = "+"; //=
 
     QQueue<QString> *queue = new QQueue<QString>();
     queue->append(postfixNotation);

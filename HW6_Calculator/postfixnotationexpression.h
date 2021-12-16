@@ -5,30 +5,25 @@
 #include <QStack>
 #include <QQueue>
 #include <QtMath>
+#include <QVector>
 
 class PostfixNotationExpression
 {   
 public:
     PostfixNotationExpression();
 
-    QString ConvertToPostfixNotation(QString input);
+    QList<QString> *ConvertToPostfixNotation(QString input);
 
     qreal result(QString input);
-
-
 
 private:
 
     QList<QString> standart_operators;
     QList<QString> *operators;
 
-    QString Separate(QString input);
+    void Separate(QString input, QVector<QString> &resVector);
 
     qint8 GetPriority(QString s);
-
-
-
-
 
 };
 
