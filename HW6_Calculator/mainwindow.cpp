@@ -116,3 +116,27 @@ void MainWindow::on_But_E_clicked()
     ui->CalcScreen->setText(calculator.indicate());
 }
 
+
+void MainWindow::on_But_Pow_clicked()
+{
+    calculator.operation(5);
+}
+
+
+void MainWindow::on_But_LeftParenthesis_clicked()
+{
+    ui->CalcScreen->setText("(");
+}
+
+
+void MainWindow::on_But_RightParenthesis_clicked()
+{
+    ui->CalcScreen->setText(")");
+}
+
+
+void MainWindow::on_But_DelChar_clicked()
+{
+    ui->CalcScreen->clear();
+}
+

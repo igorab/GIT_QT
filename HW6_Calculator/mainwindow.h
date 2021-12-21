@@ -41,6 +41,13 @@ private slots:
 
     void on_But_E_clicked();
 
+    void on_But_Pow_clicked();
+
+    void on_But_LeftParenthesis_clicked();
+
+    void on_But_RightParenthesis_clicked();
+
+    void on_But_DelChar_clicked();
 
 private:
     Ui::frmCalculator *ui;

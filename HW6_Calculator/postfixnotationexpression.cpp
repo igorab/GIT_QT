@@ -145,11 +145,8 @@ qreal PostfixNotationExpression::result(QString input)
 
     QList<QString> *listRPN = ConvertToPostfixNotation(input);
 
-
-    QString postfixNotation = "+"; //=
-
     QQueue<QString> *queue = new QQueue<QString>();
-    queue->append(postfixNotation);
+    queue->append(*listRPN);
 
     QString str = queue->dequeue();
 
@@ -168,36 +165,36 @@ qreal PostfixNotationExpression::result(QString input)
             {
                 if (str == "+")
                 {
-                    qreal a = 0;
-                    qreal b = 0;
+                    qreal a = stack->pop().toDouble();
+                    qreal b = stack->pop().toDouble();
 
                     summ = a + b;
                 }
                 else if (str == "-")
                 {
-                    qreal a = 0;
-                    qreal b = 0;
+                    qreal a = stack->pop().toDouble();
+                    qreal b = stack->pop().toDouble();
 
                     summ = b - a;
                 }
                 else if (str == "*")
                 {
-                    qreal a = 0;
-                    qreal b = 0;
+                    qreal a = stack->pop().toDouble();
+                    qreal b = stack->pop().toDouble();
 
                     summ = b * a;
                 }
                 else if (str == "/")
                 {
-                    qreal a = 0;
-                    qreal b = 0;
+                    qreal a = stack->pop().toDouble();
+                    qreal b = stack->pop().toDouble();
 
                     summ = b / a;
                 }
                 else if (str == "^")
                 {
-                    qreal a = 0;
-                    qreal b = 0;
+                    qreal a = stack->pop().toDouble();
+                    qreal b = stack->pop().toDouble();
 
                     summ = pow(b, a);
                 }

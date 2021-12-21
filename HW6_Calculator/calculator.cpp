@@ -248,14 +248,15 @@ int Calculator::calculate()
 {
     PostfixNotationExpression pnexpr;
 
-    float res = pnexpr.result("2-2*(3-1+(3+4-2*6))");
+    result = pnexpr.result("2-2*(3-1+(3+4-2*6))");
 
 
+    /*
     switch(oper)
     {
         case 1:
             result = value1+ value2;
-        break;
+            break;
         case 2:
             result = value1 - value2;
             break;
@@ -264,8 +265,12 @@ int Calculator::calculate()
             break;
         case 4:
             result = value1/value2;
+            break;
+        case 5:
+            result = pow(value1, value2);
         break;
     }
+    */
 
     return 0;
 }

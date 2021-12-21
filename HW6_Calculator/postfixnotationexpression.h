@@ -6,6 +6,8 @@
 #include <QQueue>
 #include <QtMath>
 #include <QVector>
+#include <stdlib.h>
+#include <list>
 
 class PostfixNotationExpression
 {   

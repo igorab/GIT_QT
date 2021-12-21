@@ -65,5 +65,5 @@ void MathOperator::Evaluate(QStack<float> &OperandStack)
 
 char MathOperator::GetOp()
 {
-
+    return 0;
 }
