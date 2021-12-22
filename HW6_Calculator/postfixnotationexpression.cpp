@@ -145,6 +145,8 @@ qreal PostfixNotationExpression::result(QString input)
 
     QList<QString> *listRPN = ConvertToPostfixNotation(input);
 
+    ReversePolishNotation = "2 2 +";
+
     QQueue<QString> *queue = new QQueue<QString>();
     queue->append(*listRPN);
 

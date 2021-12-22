@@ -87,51 +87,61 @@ void MainWindow::on_But_C_clicked()
 
 void MainWindow::on_But_Plus_clicked()
 {
-    calculator.operation(1);
+    calculator.operation('+');
+    ui->CalcScreen->setText(calculator.indicate());
 }
 
 
 void MainWindow::on_But_Min_clicked()
 {
-    calculator.operation(2);
+    calculator.operation('-');
+    ui->CalcScreen->setText(calculator.indicate());
 }
 
 
 void MainWindow::on_But_Mul_clicked()
 {
-    calculator.operation(3);
+    calculator.operation('*');
+    ui->CalcScreen->setText(calculator.indicate());
 }
 
 
 void MainWindow::on_But_Div_clicked()
 {
-    calculator.operation(4);
+    calculator.operation('/');
+    ui->CalcScreen->setText(calculator.indicate());
 }
 
-
+///
+/// \brief MainWindow::on_But_E_clicked
+/// вычислить выражение (=)
+///
 void MainWindow::on_But_E_clicked()
 {
-    calculator.calculate();
-
-    ui->CalcScreen->setText(calculator.indicate());
+    float result = calculator.calculate();
+    ui->CalcResult->setText(QString::number(result));
+    ui->CalcRPN->setText(calculator.reverseExpression);
 }
 
 
 void MainWindow::on_But_Pow_clicked()
 {
-    calculator.operation(5);
+    calculator.operation('^');
+    ui->CalcScreen->setText(calculator.indicate());
 }
 
 
 void MainWindow::on_But_LeftParenthesis_clicked()
 {
-    ui->CalcScreen->setText("(");
+    calculator.operation('(');
+    ui->CalcScreen->setText(calculator.indicate());
 }
 
 
 void MainWindow::on_But_RightParenthesis_clicked()
 {
-    ui->CalcScreen->setText(")");
+    calculator.operation(')');
+    ui->CalcScreen->setText(calculator.indicate());
 }
 
 

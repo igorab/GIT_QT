@@ -10,10 +10,13 @@ class Calculator
 public:
     Calculator();
 
-    int reset();
+    QString expression;
+    QString reverseExpression;
+
+    int reset();    
     int digit(int d);
-    int operation(int o);
-    int calculate();
+    int operation(char op);
+    float calculate();
     QString indicate();
 
 private:

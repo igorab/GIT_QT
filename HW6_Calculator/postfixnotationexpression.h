@@ -18,6 +18,8 @@ public:
 
     qreal result(QString input);
 
+    QString ReversePolishNotation;
+
 private:
 
     QList<QString> standart_operators;

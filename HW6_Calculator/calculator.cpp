@@ -204,15 +204,18 @@ int pexpression()
 }
 
 
-
 Calculator::Calculator()
 {
+    expression = "";
+
     pexpression();
 
 }
 
 int Calculator::reset()
 {
+    expression = "";
+
     value1 = 0;
     value2 = 0;
     oper = 0;
@@ -221,8 +224,12 @@ int Calculator::reset()
     return 0;
 }
 
+
 int Calculator::digit(int d)
 {
+    expression += QString::number(d);
+
+    /*
     if (oper == 0)
     {
         value1 = value1*10 + d;
@@ -233,49 +240,32 @@ int Calculator::digit(int d)
         value2 = value2 * 10 +d;
         result = value2;
     }
-
+    */
     return 0;
 }
 
-int Calculator::operation(int _oper)
+int Calculator::operation(char _oper)
 {
-    oper = _oper;
+    expression += QChar(_oper);
+
+    //oper = _oper;
 
     return 0;
 }
 
-int Calculator::calculate()
+float Calculator::calculate()
 {
     PostfixNotationExpression pnexpr;
 
-    result = pnexpr.result("2-2*(3-1+(3+4-2*6))");
+    result = pnexpr.result(expression); //"2-2*(3-1+(3+4-2*6))"
+    reverseExpression = pnexpr.ReversePolishNotation;
+
+    return result;
 
 
-    /*
-    switch(oper)
-    {
-        case 1:
-            result = value1+ value2;
-            break;
-        case 2:
-            result = value1 - value2;
-            break;
-        case 3:
-            result = value1 * value2;
-            break;
-        case 4:
-            result = value1/value2;
-            break;
-        case 5:
-            result = pow(value1, value2);
-        break;
-    }
-    */
-
-    return 0;
 }
 
 QString Calculator::indicate()
 {
-    return QString::number(result);
+    return expression; //QString::number(result);
 }
