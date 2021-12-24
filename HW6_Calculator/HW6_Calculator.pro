@@ -12,13 +12,11 @@ SOURCES += \
     calculator.cpp \
     main.cpp \
     mainwindow.cpp \
-    mathoperator.cpp \
     postfixnotationexpression.cpp
 
 HEADERS += \
     calculator.h \
     mainwindow.h \
-    mathoperator.h \
     postfixnotationexpression.h
 
 FORMS += \
