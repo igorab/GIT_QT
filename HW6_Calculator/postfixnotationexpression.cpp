@@ -67,7 +67,6 @@ qint8 PostfixNotationExpression::GetPriority(QString s)
         return 4;
 }
 
-
 ///
 /// \brief PostfixNotationExpression::ConvertToPostfixNotation
 /// \param input
@@ -77,7 +76,7 @@ QList<QString>* PostfixNotationExpression::ConvertToPostfixNotation(QString inpu
 {
     QList<QString> *outputSeparated = new QList<QString>();
 
-    QStack<QString> stack;
+    QStack<QString> *stack = new QStack<QString>();
     QVector<QString>  qVector;
 
     Separate(input, qVector);
@@ -86,35 +85,35 @@ QList<QString>* PostfixNotationExpression::ConvertToPostfixNotation(QString inpu
     {
         if (operators->contains(c))
         {
-            if (stack.count() > 0 && c != '(')
+            if (stack->count() > 0 && c != '(')
             {
                 if (c == ')')
                 {
-                    QString s = stack.pop();
+                    QString s = stack->pop();
 
                     while (s != '(')
                     {
                         outputSeparated->append(s);
 
-                        s = stack.pop();
+                        s = stack->pop();
                     }
                 }
-                else if (GetPriority(c) > GetPriority(stack.top()))
+                else if (GetPriority(c) > GetPriority(stack->top()))
                 {
-                    stack.push(c);
+                    stack->push(c);
                 }
                 else
                 {
-                    while (stack.count() > 0 && GetPriority(c) <= GetPriority(stack.top()))
+                    while (stack->count() > 0 && GetPriority(c) <= GetPriority(stack->top()))
                     {
-                        outputSeparated->append(stack.pop());
+                        outputSeparated->append(stack->pop());
                     }
-                    stack.push(c);
+                    stack->push(c);
                 }
             }
             else
             {
-                stack.push(c);
+                stack->push(c);
             }
         }
         else
@@ -123,13 +122,15 @@ QList<QString>* PostfixNotationExpression::ConvertToPostfixNotation(QString inpu
         }
     }
 
-    if (stack.count() > 0)
+    if (stack->count() > 0)
     {
-        for(const QString &c: stack)
+        for(const QString &c: *stack)
         {
             outputSeparated->append(c);
         }
     }
+
+    delete stack;
 
     return outputSeparated;
 }
@@ -152,6 +153,8 @@ qreal PostfixNotationExpression::result(QString input)
 
     QQueue<QString> *queue = new QQueue<QString>();
     queue->append(*listRPN);
+
+    delete listRPN;
 
     QString str = queue->dequeue();
 
@@ -221,7 +224,11 @@ qreal PostfixNotationExpression::result(QString input)
         }
     }
 
-    return stack->pop().toFloat();
+     qreal ret = stack->pop().toFloat();
+
+    delete stack;
+
+    return ret;
 }
 
 

@@ -8,9 +8,6 @@ using namespace std;
 
 //#pragma hdrstop
 
-const char leftparenthesis = '(';
-const char rightparenthesis = ')';
-
 int isoperator(char ch)
 {
     if (ch =='+' || ch == '-' || ch == '*' ||   ch == '/' || ch == '(')
@@ -52,14 +49,14 @@ void error(int n)
 Calculator::Calculator()
 {
     expression = "";
+    reverseExpression = "";
 }
 
 int Calculator::reset()
 {
     expression = "";
+    reverseExpression = "";
 
-    value1 = 0;
-    value2 = 0;
     oper = 0;
     result = 0;
 
@@ -74,7 +71,15 @@ int Calculator::digit(int d)
 
 int Calculator::operation(char _oper)
 {
-    expression += QChar(_oper);
+    if (_oper == 0x08)
+    {
+        expression = expression.left(expression.length()-1);
+    }
+    else
+    {
+        expression += QChar(_oper);
+    }
+
     return 0;
 }
 
@@ -90,5 +95,5 @@ float Calculator::calculate()
 
 QString Calculator::indicate()
 {
-    return expression; //QString::number(result);
+    return expression;
 }
