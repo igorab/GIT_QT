@@ -24,27 +24,6 @@ int iswhitespace(char ch)
         return 0;
 }
 
-enum operror{
-    OperatorExpected,
-    OperandExpected,
-    MissingLeftParenthesis,
-    MissingRightParenthesis,
-    InvalidInput
-};
-
-void error(int n)
-{
-    const static char *errormsgs[] = {
-        "Отсутствует оператор",
-        "Отсутствует операнд",
-        "Нет левой скобки",
-        "Нет правой скобки",
-        "Неверный ввод"};
-
-    cerr << errormsgs[n]<< endl;
-
-    exit(1);
-}
 
 Calculator::Calculator()
 {
@@ -86,8 +65,8 @@ int Calculator::operation(char _oper)
 float Calculator::calculate()
 {
     PostfixNotationExpression pnexpr;
-
-    result = pnexpr.result(expression); //"2-2*(3-1+(3+4-2*6))"
+    exprError = "";
+    result = pnexpr.result(expression, &exprError); //"2-2*(3-1+(3+4-2*6))"
     reverseExpression = pnexpr.ReversePolishNotation;
 
     return result;

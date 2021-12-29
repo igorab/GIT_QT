@@ -121,9 +121,24 @@ void MainWindow::on_But_Pow_clicked()
 ///
 void MainWindow::on_But_E_clicked()
 {
-    float result = calculator.calculate();
-    ui->CalcResult->setText(QString::number(result));
-    ui->CalcRPN->setText(calculator.reverseExpression);
+    if (ui->CalcScreen->toPlainText() == "")
+    {
+        ui->CalcRPN->setText("Введите арифметическое выражение");
+    }
+    else
+    {
+        float result = calculator.calculate();
+        ui->CalcResult->setText(QString::number(result));
+
+        if (calculator.exprError != "")
+        {
+            ui->CalcRPN->setText(calculator.exprError);
+        }
+        else
+        {
+            ui->CalcRPN->setText(calculator.reverseExpression);
+        }
+    }
 }
 
 void MainWindow::on_But_LeftParenthesis_clicked()
@@ -142,5 +157,6 @@ void MainWindow::on_But_DelChar_clicked()
 {
     calculator.operation(0x08);
     ui->CalcScreen->setText(calculator.indicate());
+    ui->CalcRPN->setText("");
 }
 

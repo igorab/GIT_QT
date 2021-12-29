@@ -1,5 +1,19 @@
 #include "postfixnotationexpression.h"
 
+QString PostfixNotationExpression::errorTxt(int n)
+{
+    const static char *errormsgs[] =
+    {
+        "Отсутствует оператор",
+        "Отсутствует операнд",
+        "Нет левой скобки",
+        "Нет правой скобки",
+        "Неверный ввод"
+    };
+
+    return errormsgs[n];
+}
+
 PostfixNotationExpression::PostfixNotationExpression()
 {
     standart_operators = { "(", ")", "+", "-", "*", "/", "^"};
@@ -122,12 +136,9 @@ QList<QString>* PostfixNotationExpression::ConvertToPostfixNotation(QString inpu
         }
     }
 
-    if (stack->count() > 0)
-    {
-        for(const QString &c: *stack)
-        {
-            outputSeparated->append(c);
-        }
+    while (!stack->isEmpty())
+    {                        
+        outputSeparated->append(stack->pop());
     }
 
     delete stack;
@@ -140,8 +151,9 @@ QList<QString>* PostfixNotationExpression::ConvertToPostfixNotation(QString inpu
 /// \param input
 /// \return
 ///
-qreal PostfixNotationExpression::result(QString input)
+qreal PostfixNotationExpression::result(QString input, QString *errTxt)
 {
+    *errTxt = "";
     QStack<QString> *stack = new QStack<QString>();
 
     QList<QString> *listRPN = ConvertToPostfixNotation(input);
@@ -169,48 +181,110 @@ qreal PostfixNotationExpression::result(QString input)
         {
             qreal summ = 0;
 
-            try
+            if (str == "+")
             {
-                if (str == "+")
+                qreal a = 0, b = 0;
+                if (stack->isEmpty())
                 {
-                    qreal a = stack->pop().toDouble();
-                    qreal b = stack->pop().toDouble();
-
-                    summ = a + b;
+                    *errTxt = errorTxt(OperandExpected);
+                    return 0;
                 }
-                else if (str == "-")
+                else
+                    a = stack->pop().toDouble();
+
+                if (stack->isEmpty())
                 {
-                    qreal a = stack->pop().toDouble();
-                    qreal b = stack->pop().toDouble();
-
-                    summ = b - a;
+                    *errTxt =  errorTxt(OperandExpected);
+                    return 0;
                 }
-                else if (str == "*")
-                {
-                    qreal a = stack->pop().toDouble();
-                    qreal b = stack->pop().toDouble();
+                else
+                    b = stack->pop().toDouble();
 
-                    summ = b * a;
-                }
-                else if (str == "/")
-                {
-                    qreal a = stack->pop().toDouble();
-                    qreal b = stack->pop().toDouble();
-
-                    summ = b / a;
-                }
-                else if (str == "^")
-                {
-                    qreal a = stack->pop().toDouble();
-                    qreal b = stack->pop().toDouble();
-
-                    summ = pow(b, a);
-                }
-
+                summ = a + b;
             }
-            catch (char* msg)
+            else if (str == "-")
             {
+                qreal a = 0, b = 0;
+                if (stack->isEmpty())
+                {
+                    *errTxt = errorTxt(OperandExpected);
+                    return 0;
+                }
+                else
+                    a = stack->pop().toDouble();
 
+                if (stack->isEmpty())
+                {
+                    *errTxt = errorTxt(OperandExpected);
+                    return 0;
+                }
+                else
+                    b = stack->pop().toDouble();
+
+                summ = b - a;
+            }
+            else if (str == "*")
+            {
+                qreal a = 0, b = 0;
+                if (stack->isEmpty())
+                {
+                    *errTxt = errorTxt(OperandExpected);
+                    return 0;
+                }
+                else
+                    a = stack->pop().toDouble();
+
+                if (stack->isEmpty())
+                {
+                    *errTxt = errorTxt(OperandExpected);
+                    return 0;
+                }
+                else
+                    b = stack->pop().toDouble();
+
+                summ = b * a;
+            }
+            else if (str == "/")
+            {
+                qreal a = 0, b = 0;
+                if (stack->isEmpty())
+                {
+                    *errTxt = errorTxt(OperandExpected);
+                    return 0;
+                }
+                else
+                    a = stack->pop().toDouble();
+
+                if (stack->isEmpty())
+                {
+                    *errTxt = errorTxt(OperandExpected);
+                    return 0;
+                }
+                else
+                    b = stack->pop().toDouble();
+
+                summ = b / a;
+            }
+            else if (str == "^")
+            {
+                qreal a = 0, b = 0;
+                if (stack->isEmpty())
+                {
+                    *errTxt = errorTxt(OperandExpected);
+                    return 0;
+                }
+                else
+                    a = stack->pop().toDouble();
+
+                if (stack->isEmpty())
+                {
+                    *errTxt = errorTxt(OperandExpected);
+                    return 0;
+                }
+                else
+                    b = stack->pop().toDouble();
+
+                summ = pow(b, a);
             }
 
             stack->push(QString::number(summ));

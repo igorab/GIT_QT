@@ -16,6 +16,7 @@ public:
 
     QString expression;
     QString reverseExpression;
+    QString exprError;
 
     int reset();    
     int digit(int d);
