@@ -86,7 +86,7 @@ qint8 PostfixNotationExpression::GetPriority(QString s)
 /// \param input
 /// \return
 ///
-QList<QString>* PostfixNotationExpression::ConvertToPostfixNotation(QString input)
+QList<QString>* PostfixNotationExpression::ConvertToPostfixNotation(QString input, QString *errTxt)
 {
     QList<QString> *outputSeparated = new QList<QString>();
 
@@ -109,7 +109,15 @@ QList<QString>* PostfixNotationExpression::ConvertToPostfixNotation(QString inpu
                     {
                         outputSeparated->append(s);
 
-                        s = stack->pop();
+                        if (stack->isEmpty())
+                        {
+                            *errTxt = errorTxt(MissingLeftParenthesis);
+                            return outputSeparated;
+                        }
+                        else
+                        {
+                            s = stack->pop();
+                        }
                     }
                 }
                 else if (GetPriority(c) > GetPriority(stack->top()))
@@ -156,7 +164,15 @@ qreal PostfixNotationExpression::result(QString input, QString *errTxt)
     *errTxt = "";
     QStack<QString> *stack = new QStack<QString>();
 
-    QList<QString> *listRPN = ConvertToPostfixNotation(input);
+    QList<QString> *listRPN = ConvertToPostfixNotation(input, errTxt);
+
+    if (*errTxt != "")
+    {
+        delete stack;
+        delete listRPN;
+        listRPN = NULL;
+        return 0;
+    }
 
     foreach(QString word, *listRPN)
     {
@@ -175,7 +191,15 @@ qreal PostfixNotationExpression::result(QString input, QString *errTxt)
         if (!operators->contains(str))
         {
             stack->push(str);
-            str = queue->dequeue();
+
+            if (queue->count()>0)
+                str = queue->dequeue();
+            else
+            {
+                *errTxt = errorTxt(OperatorExpected);
+                return 0;
+            }
+
         }
         else
         {

@@ -15,7 +15,7 @@ public:
 
     PostfixNotationExpression();
 
-    QList<QString> *ConvertToPostfixNotation(QString input);
+    QList<QString> *ConvertToPostfixNotation(QString input, QString *errTxt);
 
     qreal result(QString input, QString *errTxt);
 
