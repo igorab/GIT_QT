@@ -22,3 +22,13 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    img/planet_alpha.png \
+    img/planet_atmosphere_alpha.png \
+    img/planet_atmosphere_texture.png \
+    img/planet_lights_alpha.png \
+    img/planet_lights_texture.png \
+    img/planet_shadow.png \
+    img/planet_texture.png \
+    img/star_background.jpg

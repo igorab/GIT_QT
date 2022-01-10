@@ -114,8 +114,6 @@ public:
 
 protected:
 
-    void mousePressEvent(QMouseEvent *event);
-
     void keyPressEvent(QKeyEvent *event);
 
     bool eventFilter(QObject *target, QEvent *event);

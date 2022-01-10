@@ -23,32 +23,35 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     planet_size = 150;
     atmosphere_up_size = 6;
     moon_size=50;
-    orbital_moon_size=120;//размерорбитыспутника
-    orbital_moon_speed=1.6;//орбитальнаяскоростьспутника
-    star_size=200;//размерзвезды
-    speed_moon_rotation=2.5;//скоростьвращенияспутника
-    speed_star_rotation=2.5;//скоростьвращениязвезды
+    orbital_moon_size=120;//размер орбиты спутника
+    orbital_moon_speed=1.6;//орбитальная скорость спутника
+    star_size=200;//размер звезды
+    speed_moon_rotation=2.5;//скорость вращения спутника
+    speed_star_rotation=2.5;//скорость вращения звезды
 
-    //загрузказвездногофона
+    //загрузка звездного фона
     star_background.load("img/star_background.jpg");
-    //загрузкатекстурнойкартыпланеты
+    //загрузка текстурной карты планеты
     planet_texture.load("img/planet_texture.png");
-    //загрузкамаскиальфа-смешиванияпланеты
+    //загрузка маски альфа-смешивания планеты
     planet_alpha.load("img/planet_alpha.png");
     //масштабируем маску альфа-смешивания планеты под заданный размер планеты
-    planet_alpha=planet_alpha.scaled(planet_size,planet_size,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+    planet_alpha=planet_alpha.scaled(planet_size, planet_size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     //загрузка тени планеты
     planet_shadow.load("img/planet_shadow.png");
     //масштабируем тень планеты подзаданный размер планеты
-    planet_shadow=planet_shadow.scaled(planet_size,planet_size,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+    planet_shadow=planet_shadow.scaled(planet_size, planet_size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
     //загрузка текстурной карты ночных огней городов
     planet_lights_texture.load("img/planet_lights_texture.png");
 
-    //масштабируемтекстурнуюкартуночныхогнейгородовподразмертекстурнойкартыпланеты
+    //масштабируем текстурную карту ночных огней городов под размер текстурной карты планеты
     planet_lights_texture = planet_lights_texture.scaled(planet_texture.width(), planet_texture.height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    //загрузкамаскиальфа-смешиванияночныхогнейгородов
+
+    //загрузка маски альфа-смешивания ночных огнейгородов
     planet_lights_alpha.load("img/planet_lights_alpha.png");
-    //масштабируеммаскуальфа-смешиванияночныхогнейгородовподзаданныйразмерпланеты
+
+    //масштабируем маску альфа-смешивания ночных огней городов под заданный размер планеты
     planet_lights_alpha=planet_lights_alpha.scaled(planet_size, planet_size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
     //загрузка текстурной карты атмосферы
@@ -57,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //масштабируем текстурную карту атмосферы под заданный размер текстурной карты планеты
     planet_atmosphere_texture = planet_atmosphere_texture.scaled(planet_texture.width(), planet_texture.height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-    //загрузкамаскиальфа-смешиванияатмосферы
+    //загрузка маски альфа-смешивания атмосферы
     planet_atmosphere_alpha.load("img/planet_atmosphere_alpha.png");
 
     //масштабируем маску альфа-смешивания атмосферы под заданный размер планеты + увеличенный размер шапки атмосферы
@@ -67,17 +70,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
      * загружаем текстуры новых объектов (Луны и Солнца) аналогичным образом, при этом альфа-маску-круга и альфа-маску-тени используем существующие, от планеты
      */
 
-    //загрузкатекстурнойкартыспутникапланеты
+    //загрузка текстурной карты спутника планеты
     moon_texture.load("img/moon.png");
 
-    //загрузкамаскиальфа-смешиванияспутника
+    //загрузка маски альфа-смешивания спутника
     moon_alpha.load("img/planet_alpha.png");
 
     //масштабируем маску альфа-смешивания спутника планеты под заданный размер
-    moon_alpha = moon_alpha.scaled(moon_size,moon_size,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+    moon_alpha = moon_alpha.scaled(moon_size, moon_size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
     //масштабируем тень спутника планеты под заданный размер планеты
-    moon_shadow = planet_shadow.scaled(moon_size,moon_size,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+    moon_shadow = planet_shadow.scaled(moon_size, moon_size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
     //загрузка текстурной карты звезды
     star_texture.load("img/sun.png");
@@ -96,36 +99,38 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //запустим таймер
     timer_cycle -> start(20);
-
 }
 
 void MainWindow::cycle()
 {
-    //копированиеучасткатекстурывсоответствииспозициейсчетчикавращенияпланеты
-    planet=planet_texture.copy(planet_rotation,0,planet_texture.height(),planet_texture.height());
+    //копирование участка текстуры в соответствии с позицией счетчика вращения планеты
+    planet = planet_texture.copy(planet_rotation, 0, planet_texture.height(), planet_texture.height());
 
     //масштабируемитоговоеизображениепланетыдозаданногоразмера
-    planet=planet.scaled(planet_size,planet_size,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+    planet = planet.scaled(planet_size, planet_size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-    //копированиеучасткатекстурыогнейгородоввсоответствииспозициейсчетчикавращенияпланеты
-    planet_lights=planet_lights_texture.copy(planet_rotation,0,planet_lights_texture.height(),planet_lights_texture.height());
+    //копирование участка текстуры огней городов в соответствии с позицией счетчика вращения планеты
+    planet_lights = planet_lights_texture.copy(planet_rotation, 0, planet_lights_texture.height(), planet_lights_texture.height());
 
-    //масштабируемитоговоеизображениеогнейгородовдозаданногоразмерапланеты
-    planet_lights=planet_lights.scaled(planet_size,planet_size,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+    //масштабируем итоговое изображение огней городов до заданного размера планеты
+    planet_lights = planet_lights.scaled(planet_size,planet_size,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 
-    //копированиеучасткатекстурыатмосферывсоответствииспозициейсчетчикавращенияатмосферы
+    //копирование участка текстуры атмосферы в соответствии с позицией счетчика вращения атмосферы
     planet_atmosphere = planet_atmosphere_texture.copy(atmosphere_rotation,0,planet_atmosphere_texture.height(),planet_atmosphere_texture.height());
 
     //масштабируем итоговое изображение атмосферы до заданного размерапланеты + увеличение размера на размер шапки атмосферы
-    planet_atmosphere = planet_atmosphere.scaled(planet_size+atmosphere_up_size*2, planet_size+atmosphere_up_size*2, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    planet_atmosphere = planet_atmosphere.scaled(planet_size + atmosphere_up_size * 2, planet_size + atmosphere_up_size*2, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-    //копированиеучасткатекстурывсоответствииспозициейсчетчикавращенияспутника
+    //копирование участка текстуры в соответствии с позицией счетчика вращения спутника
     //Примечание: подготовим новые объекты, аналогично планете.
     moon = moon_texture.copy(moon_rotation,0,moon_texture.height(),moon_texture.height());
-    //масштабируемитоговоеизображениеспутникадозаданногоразмера
+
+    //масштабируем итоговое изображение спутника до заданного размера
     moon = moon.scaled(moon_size,moon_size,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+
     //копированиеучасткатекстурывсоответствииспозициейсчетчикавращениязвезды
     star = star_texture.copy(star_rotation,0,star_texture.height(),star_texture.height());
+
     //масштабируемитоговоеизображениезвездыдозаданногоразмера
     star = star.scaled(star_size,star_size,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 
@@ -154,7 +159,7 @@ void MainWindow::cycle()
     pm.setCompositionMode(QPainter::CompositionMode_DestinationIn);
 
     //отрисовка в объект итогового изображения спутника альфа маски
-    pm.drawImage(0,0,moon_alpha);
+    pm.drawImage(0, 0, moon_alpha);
 
     //инициализируем рисовальщик для преобразования итогового изображения ночных огней планеты
     QPainter painter2(&planet_lights);
@@ -219,7 +224,9 @@ void MainWindow::cycle()
 
 // отрисовка экрана
 void MainWindow::paintEvent(QPaintEvent *event)
-{
+{            
+    Q_UNUSED(event)
+
     QPainter painter(this);
     //установим границы отображения для рисовальщика
     painter.setViewport(ui->screen->geometry().x(), ui->screen->geometry().y(), ui->screen->geometry().width(), ui->screen->geometry().height());
@@ -325,19 +332,66 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event)
-{        
-    if (event->key() == Qt::Key_Space)
-    {
-        //ui->lineEdit->clear();
-    }
-}
 
-// Обработчик мыши
-void MainWindow::mousePressEvent(QMouseEvent *event)
+void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    //отобразим координату X
-    //ui->lineEdit_x->setText(QString::number(event->x()));
+    //комбинация Ctrl -
+    if ( ((event->modifiers() ==(Qt::ControlModifier | Qt::KeypadModifier )) && event->key()==Qt::Key_Plus) || (event->modifiers()==Qt::ControlModifier && event->key()==Qt::Key_Equal) )
+    {
+        scale_scene += 0.05;
+    }
+
+    //комбинация Ctrl +
+    if ( ((event->modifiers() ==(Qt::ControlModifier | Qt::KeypadModifier )) && event->key()==Qt::Key_Minus) || (event->modifiers()==Qt::ControlModifier && event->key()==Qt::Key_Minus) )
+    {
+        scale_scene -= 0.05;
+    }
+
+    //ограничение масштабирования
+    if (scale_scene > 2)
+        scale_scene = 2;
+
+    if (scale_scene < 0.1)
+        scale_scene = 0.1;
+
+    //без ускорения
+    if (event->modifiers()!=Qt::ShiftModifier)
+    {
+        //стрелка вправо
+        if (event->key()==Qt::Key_Right) x_axis+=5;
+        //стрелка влево
+        if (event->key()==Qt::Key_Left) x_axis-=5;
+        //стрелка вверх
+        if (event->key()==Qt::Key_Up) y_axis-=5;
+        //стрелка вниз
+        if (event->key()==Qt::Key_Down) y_axis+=5;
+    }
+
+    //с ускорением (нажимая Shift)
+    if (event->modifiers()==Qt::ShiftModifier)
+    {
+        //стрелка вправо
+        if (event->key()==Qt::Key_Right) x_axis += 20;
+        //стрелка влево
+        if (event->key()==Qt::Key_Left) x_axis -= 20;
+        //стрелка вверх
+        if (event->key()==Qt::Key_Up) y_axis -= 20;
+        //стрелка вниз
+        if (event->key()==Qt::Key_Down) y_axis += 20;
+    }
+
+    //ограничение перемещений
+    if (x_axis < -ui->screen->geometry().width()/2)
+        x_axis = -ui->screen->geometry().width()/2;
+
+    if (x_axis > ui->screen->geometry().width()/2)
+        x_axis = ui->screen->geometry().width()/2;
+
+    if (y_axis < -ui->screen->geometry().height()/2)
+        y_axis = -ui->screen->geometry().height()/2;
+
+    if (y_axis > ui->screen->geometry().height()/2)
+        y_axis = ui->screen->geometry().height()/2;
 }
 
 bool MainWindow::eventFilter(QObject *target, QEvent *event)
@@ -346,34 +400,70 @@ bool MainWindow::eventFilter(QObject *target, QEvent *event)
 
     if (event->type() == QEvent::MouseButtonPress)
     {
-        return true;
+        QMouseEvent *mouseEvent = (QMouseEvent*)event;
 
-        //отпусканиекнопокмыши
-        if (event->type()==QEvent::MouseButtonRelease)
+        if (mouseEvent->button() == Qt::LeftButton)
         {
+            if ((mouseEvent->pos().x() - ui->screen->geometry().width()/2-x_axis) * (mouseEvent->pos().x() - ui->screen->geometry().width()/2-x_axis) +
+                    (mouseEvent->pos().y() - ui->screen->geometry().height()/2-y_axis)*(mouseEvent->pos().y() - ui->screen->geometry().height()/2-y_axis) <
+                    (star_size * scale_scene/2)*(star_size * scale_scene/2))
+            {
+                text_info = "This is Sun!";
+                coord_info_x = mouseEvent->pos().x();
+                coord_info_y = mouseEvent->pos().y();
+                show_info = true;
+            }
 
+            //найдем координаты точки центра планеты на орбите
+            int px = ui->screen->geometry().width()/2+x_axis+orbital_size*scale_scene*cos(orbital_rotation*3.14159/180);
+            int py = ui->screen->geometry().height()/2+y_axis+orbital_size*scale_scene*sin(orbital_rotation*3.14159/180);
+            //проверим лежит ли точка внутри окружности планеты
+            if ((mouseEvent->pos().x()-px)*(mouseEvent->pos().x()-px) + (mouseEvent->pos().y()-py)*(mouseEvent->pos().y()-py) < (planet_size*scale_scene/2)*(planet_size*scale_scene/2))
+            {
+                text_info="This is Earth!";
+                coord_info_x=mouseEvent->pos().x();
+                coord_info_y=mouseEvent->pos().y();
+                show_info=true;
+            };
+
+            //найдем координаты точки центра спутника на его орбите
+            int mx = px+orbital_moon_size*scale_scene*cos(orbital_moon_rotation*3.14159/180);
+            int my = py+orbital_moon_size*scale_scene*sin(orbital_moon_rotation*3.14159/180);
+            //проверим лежит ли точка внутри окружности планеты
+            if ((mouseEvent->pos().x()-mx)*(mouseEvent->pos().x()-mx) + (mouseEvent->pos().y()-my)*(mouseEvent->pos().y()-my) < (moon_size*scale_scene/2)*(moon_size*scale_scene/2))
+            {
+                text_info="This is Moon!";
+                coord_info_x=mouseEvent->pos().x();
+                coord_info_y=mouseEvent->pos().y();
+                show_info=true;
+            }
+        }
+
+        //при нажатии правой кнопки мыши - отключим табличку
+        if (mouseEvent->button() == Qt::RightButton) show_info = false;
             return true;
-        };
-
-        //проверим состояние колесика
-        if (event->type()==QEvent::Wheel)
-        {
-
-            return true;
-        };
-
-        //движение мыши
-
-        if (event->type()==QEvent::MouseMove)
-        {
-            QMouseEvent *mouseEvent = (QMouseEvent*)event;
-
-            return true;
-        };
-
-        return false;
-
     }
+
+    //проверим состояние колесика
+    if (event->type()==QEvent::Wheel)
+    {
+        QWheelEvent *wheel = (QWheelEvent *) event;
+        int encoder = wheel->delta();
+
+        if (encoder>0 && scale_scene <2)
+        {
+            scale_scene += 0.05;
+        }
+
+        if (encoder<0 && scale_scene > 0.1)
+        {
+            scale_scene -= 0.05;
+        }
+
+        return true;
+    }
+
+    return false;
 
 }
 
