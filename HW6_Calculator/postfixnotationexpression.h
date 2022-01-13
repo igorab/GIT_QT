@@ -12,13 +12,24 @@
 class PostfixNotationExpression
 {   
 public:
+
     PostfixNotationExpression();
 
-    QList<QString> *ConvertToPostfixNotation(QString input);
+    QList<QString> *ConvertToPostfixNotation(QString input, QString *errTxt);
 
-    qreal result(QString input);
+    qreal result(QString input, QString *errTxt);
 
     QString ReversePolishNotation;
+
+    enum opError{
+        OperatorExpected,
+        OperandExpected,
+        MissingLeftParenthesis,
+        MissingRightParenthesis,
+        InvalidInput
+    };
+
+    QString errorTxt(int n);
 
 private:
 

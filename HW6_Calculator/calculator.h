@@ -4,14 +4,19 @@
 #include <QString>
 #include "postfixnotationexpression.h"
 
+const char leftparenthesis = '(';
+const char rightparenthesis = ')';
+
 class Calculator
 {
 
 public:
+
     Calculator();
 
     QString expression;
     QString reverseExpression;
+    QString exprError;
 
     int reset();    
     int digit(int d);
@@ -20,9 +25,6 @@ public:
     QString indicate();
 
 private:
-
-    double value1;
-    double value2;
 
     int oper;
     double result;

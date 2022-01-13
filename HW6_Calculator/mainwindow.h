@@ -51,5 +51,6 @@ private slots:
 
 private:
     Ui::frmCalculator *ui;
+    void ClickDigit(int _digit);
 };
 #endif // MAINWINDOW_H

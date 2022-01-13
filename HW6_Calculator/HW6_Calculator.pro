@@ -12,13 +12,11 @@ SOURCES += \
     calculator.cpp \
     main.cpp \
     mainwindow.cpp \
-    mathoperator.cpp \
     postfixnotationexpression.cpp
 
 HEADERS += \
     calculator.h \
     mainwindow.h \
-    mathoperator.h \
     postfixnotationexpression.h
 
 FORMS += \
@@ -29,5 +27,4 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    CSharp
+DISTFILES +=
