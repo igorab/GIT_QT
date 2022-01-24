@@ -2,12 +2,21 @@
 #define IMAGEVIEWER_H
 
 #include <QMainWindow>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
+
 #include <QPainter>
 #include <QFileDialog>
-#include <QLabel>
-#include <QScrollArea>
+
+
 #include <QMessageBox>
 
+#include <QAction>
+#include <QLabel>
+#include <QMenu>
+#include <QMenuBar>
+#include <QScrollArea>
+#include <QScrollBar>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ImageViewer; }
@@ -51,18 +60,32 @@ private slots:
 
 private:
     Ui::ImageViewer *ui;
-    /*
+
     void createActions();
     void createMenus();
     void updateActions();
     void scaleImage(double factor);
     void adjustScrollBar(QScrollBar *scrollBar, double factor);
-    */
+
     QLabel *imageLabel;
     QScrollArea *scrollArea;
-
     double scaleFactor;
 
+    //QPrinter printer;
+
+    QAction *openAct;
+    QAction *printAct;
+    QAction *exitAct;
+    QAction *zoomInAct;
+    QAction *zoomOutAct;
+    QAction *normalSizeAct;
+    QAction *fitToWindowAct;
+    QAction *aboutAct;
+    QAction *aboutQtAct;
+
+    QMenu *fileMenu;
+    QMenu *viewMenu;
+    QMenu *helpMenu;
 
 };
 #endif // IMAGEVIEWER_H
