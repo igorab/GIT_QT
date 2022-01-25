@@ -1,9 +1,10 @@
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
-
+#include <QtGlobal>
+#include<QtCore>
 #include <QMainWindow>
-#include <QtPrintSupport/QPrinter>
-#include <QtPrintSupport/QPrintDialog>
+#include <QPrinter>
+#include <QPrintDialog>
 
 #include <QPainter>
 #include <QFileDialog>
@@ -39,9 +40,7 @@ class ImageViewer : public QMainWindow
 
 public:
 
-    ImageViewer(QWidget *parent = nullptr);
-
-    ~ImageViewer();
+    ImageViewer();
 
     QImage InitialPicture;
 
@@ -55,11 +54,7 @@ private slots:
     void fitToWindow();
     void about();
 
-    void on_PushButtonFileOpen_clicked();
-    void paintEvent(QPaintEvent *event);
-
 private:
-    Ui::ImageViewer *ui;
 
     void createActions();
     void createMenus();
@@ -71,7 +66,9 @@ private:
     QScrollArea *scrollArea;
     double scaleFactor;
 
-    //QPrinter printer;
+#ifndef QT_NO_PRINTER
+    QPrinter printer;
+#endif
 
     QAction *openAct;
     QAction *printAct;

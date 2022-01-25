@@ -1,6 +1,4 @@
 #include "imageviewer.h"
-#include "ui_ImageViewer.h"
-
 #include <QtGui>
 
 ///
@@ -8,12 +6,8 @@
 /// constructor
 /// \param parent
 ///
-ImageViewer::ImageViewer(QWidget *parent) : QMainWindow(parent), ui(new Ui::ImageViewer)
-{
-    ui->setupUi(this);
-
-    InitialPicture.load("img/planet_alpha.png");
-
+ImageViewer::ImageViewer()
+{    
     imageLabel = new QLabel;
     imageLabel->setBackgroundRole(QPalette::Base);
     imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -29,12 +23,6 @@ ImageViewer::ImageViewer(QWidget *parent) : QMainWindow(parent), ui(new Ui::Imag
 
     setWindowTitle(tr("Image Viewer"));
     resize(500, 400);
-
-}
-
-ImageViewer::~ImageViewer()
-{
-    delete ui;
 }
 
 void ImageViewer::open()
@@ -66,8 +54,7 @@ void ImageViewer::open()
 
 void ImageViewer::print()
 {
-    /*
-    Q_ASSERT(imageLabel->pixmap());
+    //Q_ASSERT(imageLabel->pixmap());
 
     QPrintDialog dialog(&printer, this);
 
@@ -81,7 +68,6 @@ void ImageViewer::print()
         painter.setWindow(imageLabel->pixmap().rect());
         painter.drawPixmap(0, 0, imageLabel->pixmap());
     }
-    */
 }
 
 void ImageViewer::zoomIn()
@@ -130,50 +116,6 @@ void ImageViewer::about()
                     "shows how to use QPainter to print an image.</p>"));
 }
 
-
-void ImageViewer::on_PushButtonFileOpen_clicked()
-{
-    QFileDialog dialog(this);
-
-    dialog.setNameFilter(tr("Images(*.png *.jpg)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Images"), "C:", tr("Image Files (*.png *.jpg *.bmp)"));
-
-    if (!fileName.isEmpty())
-    {
-        QImage image(fileName);
-
-        QPainter qPainter(&InitialPicture);
-
-        //qPainter.fillRect(0, 0, 128, 128, Qt::green);
-        //qPainter.begin(ui->Screen);
-
-
-        qPainter.drawImage(0, 0, image);
-        qPainter.drawLine(0,0,100,100);
-        //ui->Screen->set
-        //QPixmap pixmap = QPixmap::fromImage(image);
-        //ui->LableFileOpen->setPixmap(pixmap);
-
-        update();
-
-        //qPainter.save();
-
-    }
-}
-
-void ImageViewer::paintEvent(QPaintEvent *event)
-{
-    QPainter painter(this);
-
-    painter.setViewport(ui->Screen->geometry().x(), ui->Screen->geometry().y(), ui->Screen->geometry().width(), ui->Screen->geometry().height());
-
-    painter.drawImage(0, 0, InitialPicture);
-
-    painter.drawLine(0,0,100,100);
-    painter.save();
-    painter.restore();
-}
 
 void ImageViewer::createActions()
 {
@@ -245,7 +187,6 @@ void ImageViewer::createMenus()
 
 void ImageViewer::updateActions()
 {
-
     zoomInAct->setEnabled(!fitToWindowAct->isChecked());
     zoomOutAct->setEnabled(!fitToWindowAct->isChecked());
     normalSizeAct->setEnabled(!fitToWindowAct->isChecked());
