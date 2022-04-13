@@ -80,6 +80,17 @@ void ImageViewer::zoomOut()
     scaleImage(0.8);
 }
 
+void ImageViewer::rotateCW()
+{
+    rotateImage(45);
+}
+
+void ImageViewer::rotateCCW()
+{
+    rotateImage(-45);
+}
+
+
 void ImageViewer::normalSize()
 {
     imageLabel->adjustSize();
@@ -159,6 +170,16 @@ void ImageViewer::createActions()
 
     aboutQtAct = new QAction(tr("About &Qt"), this);
     connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+
+    clockwiseAct = new QAction(tr("Clockwise (45%)"), this);
+    clockwiseAct->setShortcut(tr("A"));
+    clockwiseAct->setEnabled(false);
+    connect(clockwiseAct, SIGNAL(triggered()), this, SLOT(rotateCW()));
+
+    counterclockwiseAct = new QAction(tr("Counterclockwise (45%)"), this);
+    counterclockwiseAct->setShortcut(tr("S"));
+    counterclockwiseAct->setEnabled(false);
+    connect(counterclockwiseAct, SIGNAL(triggered()), this, SLOT(rotateCCW()));
 }
 
 void ImageViewer::createMenus()
@@ -175,6 +196,9 @@ void ImageViewer::createMenus()
     viewMenu->addAction(normalSizeAct);
     viewMenu->addSeparator();
     viewMenu->addAction(fitToWindowAct);
+    viewMenu->addSeparator();
+    viewMenu->addAction(clockwiseAct);
+    viewMenu->addAction(counterclockwiseAct);
 
     helpMenu = new QMenu(tr("&Help"), this);
     helpMenu->addAction(aboutAct);
@@ -190,11 +214,13 @@ void ImageViewer::updateActions()
     zoomInAct->setEnabled(!fitToWindowAct->isChecked());
     zoomOutAct->setEnabled(!fitToWindowAct->isChecked());
     normalSizeAct->setEnabled(!fitToWindowAct->isChecked());
+
+    clockwiseAct->setEnabled(true);
+    counterclockwiseAct->setEnabled(true);
 }
 
 void ImageViewer::scaleImage(double factor)
 {
-
     QSize qsize = imageLabel->pixmap().size();
     //Q_ASSERT(imageLabel->pixmap());
 
@@ -211,5 +237,17 @@ void ImageViewer::scaleImage(double factor)
 void ImageViewer::adjustScrollBar(QScrollBar *scrollBar, double factor)
 {
     scrollBar->setValue(int(factor * scrollBar->value() + ((factor - 1) * scrollBar->pageStep()/2)));
+}
+
+void ImageViewer::rotateImage(double angle)
+{
+
+    QPixmap pixmap( imageLabel->pixmap());// * imageLabel->pixmap());
+    QTransform tr;
+
+    tr.rotate(angle);
+
+    pixmap = pixmap.transformed(tr);
+    imageLabel->setPixmap(pixmap);
 }
 

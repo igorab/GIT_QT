@@ -19,6 +19,7 @@
 #include <QScrollArea>
 #include <QScrollBar>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class ImageViewer; }
 QT_END_NAMESPACE
@@ -53,6 +54,8 @@ private slots:
     void normalSize();
     void fitToWindow();
     void about();
+    void rotateCW();
+    void rotateCCW();
 
 private:
 
@@ -61,6 +64,15 @@ private:
     void updateActions();
     void scaleImage(double factor);
     void adjustScrollBar(QScrollBar *scrollBar, double factor);
+
+    // перетаскивать изображение мышью
+    //void moveImage();
+    // изменить яркость изображения
+    //void changeImageBrightness();
+    // повернуть изображение
+    void rotateImage(double angle = 45);
+    // сохранить измененное изображение во внешний файл
+    //void saveImage();
 
     QLabel *imageLabel;
     QScrollArea *scrollArea;
@@ -77,6 +89,8 @@ private:
     QAction *zoomOutAct;
     QAction *normalSizeAct;
     QAction *fitToWindowAct;
+    QAction *clockwiseAct;
+    QAction *counterclockwiseAct;
     QAction *aboutAct;
     QAction *aboutQtAct;
 
